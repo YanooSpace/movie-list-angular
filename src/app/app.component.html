@@ -26,25 +26,29 @@
             <div class="col-span-2">출연진</div>
             <div></div>
         </div>
-        <div *ngFor="let movie of movieList$ | async; let i = index" class="flex flex-col">
-            @if (selectedMovieId !== -1) {
-                <div class="grid grid-cols-7 text-center p-2">
-                    <div>{{ movie.id }}</div>
-                    <div>{{ movie.title }}</div>
-                    <div>{{ movie.director }}</div>
-                    <div>{{ movie.releaseDate }}</div>
-                    <div class="col-span-2">{{ movie.actors }}</div>
-                    <div><button (click)="editMovie(movie.id)" class="bg-slate-500 text-white py-1 px-2 rounded-md">수정</button></div>
-                </div>
-            } @else {
-                <div class="grid grid-cols-7 text-center p-2 gap-2">
-                    <div>{{ movie.id }}</div>
-                    <input type="text" [(ngModel)]="movie.title" class="border-2 rounded-md text-center">
-                    <input type="text" [(ngModel)]="movie.director" class="border-2 rounded-md text-center">
-                    <input type="text" [(ngModel)]="movie.releaseDate" class="border-2 rounded-md text-center">
-                    <input type="text" [(ngModel)]="movie.actors" class="col-span-2 border-2 rounded-md text-center">
-                    <div><button (click)="updateMovie()" class="bg-slate-500 text-white py-1 px-2 rounded-md">완료</button></div>
-                </div>
+        <div class="flex flex-col">
+            @for (movie of movieList$ | async; track $index;) {
+                @if (movie.id === selectedMovieId) {
+                    <div class="grid grid-cols-7 text-center p-2 gap-2">
+                        <div>{{ movie.id }}</div>
+                        <input type="text" [(ngModel)]="movie.title" class="border-2 rounded-md text-center">
+                        <input type="text" [(ngModel)]="movie.director" class="border-2 rounded-md text-center">
+                        <input type="text" [(ngModel)]="movie.releaseDate" class="border-2 rounded-md text-center">
+                        <input type="text" [(ngModel)]="movie.actors" class="col-span-2 border-2 rounded-md text-center">
+                        <div><button (click)="updateMovie()" class="bg-slate-500 text-white py-1 px-2 rounded-md">완료</button></div>
+                    </div>
+                } @else {
+                    <div class="grid grid-cols-7 text-center p-2">
+                        <div>{{ movie.id }}</div>
+                        <div>{{ movie.title }}</div>
+                        <div>{{ movie.director }}</div>
+                        <div>{{ movie.releaseDate }}</div>
+                        <div class="col-span-2">{{ movie.actors }}</div>
+                        <div><button (click)="editMovie(movie)" class="bg-slate-500 text-white py-1 px-2 rounded-md">수정</button></div>
+                    </div>
+                }
+            } @empty {
+                <div>영화 정보가 없습니다.</div>
             }
         </div>
     </div>

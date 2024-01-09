@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "behavior-subject-demo:build:production"
+              "buildTarget": "behavior-subject-demo:build:production"
             },
             "development": {
-              "browserTarget": "behavior-subject-demo:build:development"
+              "buildTarget": "behavior-subject-demo:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "behavior-subject-demo:build"
+            "buildTarget": "behavior-subject-demo:build"
           }
         },
         "test": {

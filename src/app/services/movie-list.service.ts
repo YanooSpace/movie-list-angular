@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject } from 'rxjs'
+import { BehaviorSubject } from 'rxjs'
 import { FormsModule } from '@angular/forms';
 
 export interface Movie {
@@ -23,7 +23,7 @@ export class MovieListService {
    * BehaviorSubject : 초기값 있음, 마지막 값을 저장 후 구독자에게 발행
    * objerver와 관련된 변수는 뒤에 $ 를 꼭 붙여준다
    */
-   private movieList$ = new BehaviorSubject<Movie[]>([
+  private movieList$ = new BehaviorSubject<Movie[]>([
     {
       id: 1,
       title: '서울의 봄',
@@ -54,7 +54,7 @@ export class MovieListService {
     },
   ])
 
-  constructor() {}
+  constructor() { }
 
   // movieList를 가져오는
   getMovieList() {
@@ -74,10 +74,34 @@ export class MovieListService {
     ])
   }
 
-  updateMovies(){
-    const updateMovie = {
+  /**
+   * 특정 영화의 데이터를 갱신 합니다.
+   * @param movieId 변경할 영화의 아이디
+   * @param movie 변경할 영화의 데이터
+   */
+  updateMovie(movieId: number, movie: UpadateMovie) {
+    // 1. 원본 데이터의 인덱스를 가지고 온다
+    const movieIndex = this.movieList$.getValue().findIndex(moive => moive.id === movieId);
 
+    // 1-1. 원본 데이터가 없다면, 해당 함수를 종료해서 필요없는 계산을 방지 할 수 있음.
+    if (movieIndex === -1) {
+      return;
     }
-  }
 
+    // 2. 원본 데이터를 불러온다.
+    const originalMovie = this.movieList$.getValue()[movieIndex];
+
+    // 3. 원본 데이터에 바꿀 데이터를 덮어 쓴다.
+    const updateMovie = {
+      ...originalMovie,
+      ...movie
+    }
+
+    // 4. 덮어쓴 데이터를 갱신해 준다.
+    const updatedMovies = this.movieList$.getValue();
+    updatedMovies.splice(movieIndex, 1, updateMovie);
+
+    // 5. 구독 하고있는 컴포넌트들에게 알려주기
+    this.movieList$.next(updatedMovies);
+  }
 }

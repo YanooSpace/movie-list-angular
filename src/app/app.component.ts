@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { Movie, MovieListService, AddMovie, UpadateMovie } from './services/movie-list.service';
+import { Movie, MovieListService } from './services/movie-list.service';
 import { Observable } from 'rxjs'
 import { FormsModule } from '@angular/forms';
 
@@ -46,11 +46,16 @@ export class AppComponent {
     this.resetMovie();
   }
 
-  editMovie(movieId: number) {
-    this.selectedMovieId = movieId;
+  editMovie(movie: Movie) {
+    this.selectedMovieId = movie.id;
+    this.movie = movie;
   }
 
+  /**
+   * this.movie 가 가르키는 movie 
+   */
   updateMovie() {
-  
+    this.movieListService.updateMovie(this.selectedMovieId, this.movie)
+    this.selectedMovieId = -1;
   }
 }
