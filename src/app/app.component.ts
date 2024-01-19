@@ -46,16 +46,23 @@ export class AppComponent {
     this.resetMovie();
   }
 
+  /**
+   * @param movie 선택된 movie배열 
+   * slectedMovieId : 선택된 movie의 id값을 넣은 변수
+   */
   editMovie(movie: Movie) {
     this.selectedMovieId = movie.id;
     this.movie = movie;
+    console.log(movie)
+    console.log(this.selectedMovieId)
   }
 
   /**
-   * this.movie 가 가르키는 movie 
+   * this.movie : input창에서 받아온 수정할 데이터를 임시로 저장한 변수
    */
   updateMovie() {
     this.movieListService.updateMovie(this.selectedMovieId, this.movie)
     this.selectedMovieId = -1;
+    this.resetMovie()
   }
 }

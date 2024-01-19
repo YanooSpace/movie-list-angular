@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs'
-import { FormsModule } from '@angular/forms';
 
 export interface Movie {
   id: number;
@@ -9,9 +8,16 @@ export interface Movie {
   releaseDate: string;
   actors: string[];
 }
-
+/**
+ * Omit<객체, 제외할 속성키>
+ * 특정 타입에서 지정된 속성만 제거한 타입을 정의
+ */
 export type AddMovie = Omit<Movie, 'id'>;
 
+/**
+ * Partial<객체>
+ * 특정 타입의 부분 집합을 만족하는 타입을 정의
+ */
 export type UpadateMovie = Partial<Omit<Movie, 'id'>>;
 
 @Injectable({
@@ -78,6 +84,10 @@ export class MovieListService {
    * 특정 영화의 데이터를 갱신 합니다.
    * @param movieId 변경할 영화의 아이디
    * @param movie 변경할 영화의 데이터
+   * movieIndex : 원본데이터에서 선택된인덱스와 같은 인덱스를 가진 원본데이터
+   * find : 객체가능, 조건에 만족하는 첫 번째 요소값을 돌려줌(1개만 찾아줌), 없으면 undefined, 객체 통로 가져옴
+   * findIndex : 객체가능, 찾고자 하는 요소의 index를 찾아줌, 없으면 -1
+   * indexof : 배열안에 정수,문자, boolean만 가능 찾고자 하는 요소의 첫 번째 index 를 찾아줌, 없으면 -1
    */
   updateMovie(movieId: number, movie: UpadateMovie) {
     // 1. 원본 데이터의 인덱스를 가지고 온다
